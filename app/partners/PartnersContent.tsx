@@ -4,8 +4,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { ShieldCheck, Search, Loader2, CheckCircle2, ArrowRight, User, Mail, Phone, Home, MapPin, Calendar, Lock, AlertCircle, RefreshCcw, X, Info, Star, ChevronRight, Zap, Target, TrendingUp, Cpu, Headset } from 'lucide-react';
 import CtaBand from '@/components/CtaBand';
 import BlogSection from '@/components/BlogSection';
+import { QuinStreetService } from '@/services/quinstreet';
 
-type PageState = 'FORM' | 'LOADING' | 'SUCCESS';
+type PageState = 'FORM' | 'LOADING' | 'SUCCESS' | 'ERROR';
 type ModalStep = 'DETAILS' | 'CONNECTING' | 'FINALIZED';
 
 interface QualifyingOption {
@@ -46,13 +47,38 @@ export default function PartnersContent() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleSubmission = (e: React.FormEvent) => {
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleSubmission = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
     setPageState('LOADING');
-    setTimeout(() => {
+    try {
+      const type = personalData?.leader === 'settlement' ? 'debt' : 'loan';
+      const dobFormatted = pii.Dob ? `${pii.Dob.slice(5, 7)}/${pii.Dob.slice(8, 10)}/${pii.Dob.slice(0, 4)}` : undefined;
+      await QuinStreetService.postLead(
+        {
+          Fname: pii.Fname,
+          Lname: pii.Lname,
+          Email: pii.Email,
+          HomePhone: pii.HomePhone.replace(/\D/g, ''),
+          Street: pii.Street,
+          City: pii.City,
+          State: pii.State,
+          PostalCode: pii.PostalCode,
+          Dob: dobFormatted,
+          CashOut: pii.CashOut.replace(/\D/g, '') || '15000',
+          SSN: pii.SSN || undefined,
+        },
+        type
+      );
       setPageState('SUCCESS');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 2500);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      setPageState('ERROR');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handleConfirmInterest = () => {
@@ -126,12 +152,14 @@ export default function PartnersContent() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-light mb-6">
-            {pageState === 'SUCCESS' ? 'Audit Complete' : 'Personalized Strategy'}
+            {pageState === 'SUCCESS' ? 'Audit Complete' : pageState === 'ERROR' ? 'Something Went Wrong' : 'Personalized Strategy'}
           </h1>
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">
             {pageState === 'SUCCESS'
               ? 'Your personalized debt elimination matches are ready.'
-              : 'Complete the identity verification to receive your customized debt elimination plan.'}
+              : pageState === 'ERROR'
+                ? 'We couldn\'t complete your submission. Please try again.'
+                : 'Complete the identity verification to receive your customized debt elimination plan.'}
           </p>
         </div>
       </section>
@@ -148,6 +176,23 @@ export default function PartnersContent() {
             <Loader2 className="animate-spin text-brand-primary mb-8" size={64} />
             <h2 className="text-3xl font-light text-slate-900 mb-4">Securing Your Profile</h2>
             <p className="text-slate-500 max-w-sm">Verifying data points and matching with our primary lending network...</p>
+          </div>
+        )}
+
+        {/* ERROR STATE */}
+        {pageState === 'ERROR' && (
+          <div className="bg-white p-12 md:p-16 rounded-[3rem] shadow-2xl text-center flex flex-col items-center justify-center border border-red-100 min-h-[400px]">
+            <div className="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6">
+              <AlertCircle size={40} />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">Submission Issue</h2>
+            <p className="text-slate-600 max-w-md mb-8">{submitError}</p>
+            <button
+              onClick={() => { setPageState('FORM'); setSubmitError(null); }}
+              className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-brand-primary transition-all"
+            >
+              Try Again
+            </button>
           </div>
         )}
 

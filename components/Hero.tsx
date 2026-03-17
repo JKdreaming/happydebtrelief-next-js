@@ -71,7 +71,7 @@ const Hero = () => {
           <h1 className="text-5xl md:text-7xl font-light text-slate-900 leading-[1.1] mb-8">
             Crush Your Debt. <br />
             <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-[#5a912e]">
-              Reclaim Your Life.
+              Reclaim Your Life!
             </span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 font-light max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed">
