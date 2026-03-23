@@ -235,51 +235,51 @@ function FormSection({ pii, setPii, inputBaseClass, labelClass, loadTestData, ha
         </button>
       </div>
 
-      <form onSubmit={handleSubmission} className="space-y-6">
+      <form onSubmit={handleSubmission} className="space-y-6" autoComplete="off">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className={labelClass}>First Name</label>
-            <input type="text" required value={pii.Fname} onChange={e => setPii({...pii, Fname: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="JENNIFER" />
+            <input type="text" required value={pii.Fname} onChange={e => setPii({...pii, Fname: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="JENNIFER" autoComplete="off" />
           </div>
           <div>
             <label className={labelClass}>Last Name</label>
-            <input type="text" required value={pii.Lname} onChange={e => setPii({...pii, Lname: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="PARDEN" />
+            <input type="text" required value={pii.Lname} onChange={e => setPii({...pii, Lname: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="PARDEN" autoComplete="off" />
           </div>
         </div>
         <div>
           <label className={labelClass}>Email Address</label>
-          <input type="email" required value={pii.Email} onChange={e => setPii({...pii, Email: e.target.value})} className={inputBaseClass} placeholder="example@email.com" />
+          <input type="email" required value={pii.Email} onChange={e => setPii({...pii, Email: e.target.value})} className={inputBaseClass} placeholder="example@email.com" autoComplete="off" />
         </div>
         <div>
           <label className={labelClass}>Phone Number</label>
-          <input type="tel" required value={pii.HomePhone} onChange={e => setPii({...pii, HomePhone: e.target.value})} className={inputBaseClass} placeholder="714-453-2462" />
+          <input type="tel" required value={pii.HomePhone} onChange={e => setPii({...pii, HomePhone: e.target.value})} className={inputBaseClass} placeholder="714-453-2462" autoComplete="off" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className={labelClass}>Date of Birth</label>
-            <input type="date" required value={pii.Dob} onChange={e => setPii({...pii, Dob: e.target.value})} className={`${inputBaseClass} [color-scheme:dark]`} />
+            <input type="date" required value={pii.Dob} onChange={e => setPii({...pii, Dob: e.target.value})} className={`${inputBaseClass} [color-scheme:dark]`} autoComplete="off" />
           </div>
           <div>
             <label className={labelClass}>SSN (Digits Only)</label>
-            <input type="password" required maxLength={9} value={pii.SSN} onChange={e => setPii({...pii, SSN: e.target.value.replace(/[^0-9]/g, '')})} className={inputBaseClass} placeholder="........." />
+            <input type="password" required maxLength={9} value={pii.SSN} onChange={e => setPii({...pii, SSN: e.target.value.replace(/[^0-9]/g, '')})} className={inputBaseClass} placeholder="........." autoComplete="one-time-code" />
           </div>
         </div>
         <div>
           <label className={labelClass}>Street Address</label>
-          <input type="text" required value={pii.Street} onChange={e => setPii({...pii, Street: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="1024 CHAUTAUQUA BV" />
+          <input type="text" required value={pii.Street} onChange={e => setPii({...pii, Street: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="1024 CHAUTAUQUA BV" autoComplete="off" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="md:col-span-6">
             <label className={labelClass}>City</label>
-            <input type="text" required value={pii.City} onChange={e => setPii({...pii, City: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="PACIFIC PALISADES" />
+            <input type="text" required value={pii.City} onChange={e => setPii({...pii, City: e.target.value.toUpperCase()})} className={inputBaseClass} placeholder="PACIFIC PALISADES" autoComplete="off" />
           </div>
           <div className="md:col-span-3">
             <label className={labelClass}>State</label>
-            <input type="text" required maxLength={2} value={pii.State} onChange={e => setPii({...pii, State: e.target.value.toUpperCase()})} className={`${inputBaseClass} text-center`} placeholder="CA" />
+            <input type="text" required maxLength={2} value={pii.State} onChange={e => setPii({...pii, State: e.target.value.toUpperCase()})} className={`${inputBaseClass} text-center`} placeholder="CA" autoComplete="off" />
           </div>
           <div className="md:col-span-3">
             <label className={labelClass}>Zip</label>
-            <input type="text" required maxLength={5} value={pii.PostalCode} onChange={e => setPii({...pii, PostalCode: e.target.value})} className={`${inputBaseClass} text-center`} placeholder="90272" />
+            <input type="text" required maxLength={5} value={pii.PostalCode} onChange={e => setPii({...pii, PostalCode: e.target.value})} className={`${inputBaseClass} text-center`} placeholder="90272" autoComplete="off" />
           </div>
         </div>
         <div className="p-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 text-center">
