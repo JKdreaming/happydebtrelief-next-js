@@ -149,7 +149,7 @@ export default function PartnersContent() {
   return (
     <div className="bg-slate-50 min-h-screen">
       <section className="bg-brand-secondary text-white pb-32 pt-40 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+        <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-20"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-light mb-6">
             {pageState === 'SUCCESS' ? 'Audit Complete' : pageState === 'ERROR' ? 'Something Went Wrong' : 'Personalized Strategy'}
